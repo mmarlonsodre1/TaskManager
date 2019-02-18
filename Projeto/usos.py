@@ -1,3 +1,4 @@
+import psutil
 from Projeto import cpu
 from variaveis import *
 
@@ -135,9 +136,42 @@ def mostra_info_ethernet():
     net_mask = font.render("Máscara de Rede: " + str(ethernet.get_mask()), True, black)
     dados_enviados = font.render("Dados Enviados: " + str(ethernet.enviados()), True, black)
     dados_recebidos = font.render("Dados Recebidos: " + str(ethernet.recebidos()), True, black)
+    pid_text = font.render("PID: ", True, black)
 
     tela.blit(net_mac, (10, 65))
     tela.blit(net_ip, (10, 95))
     tela.blit(net_mask, (10, 125))
     tela.blit(dados_enviados, (10, 155))
     tela.blit(dados_recebidos, (10, 185))
+    tela.blit(pid_text, (10, 225))
+
+def info_pid_ethernet(x):
+    info_pids = psutil.Process(x).connections()
+
+    try:
+        print("Endereço Local")
+        print("IP:", info_pids[0].laddr[0])
+        print("Porta:", info_pids[0].laddr[1])
+
+        print()
+
+        print("Endereço Remoto")
+        print("IP:", info_pids[0].raddr[0])
+        print("Porta:", info_pids[0].raddr[1])
+
+        end_local = font.render("Endereço Local", True, black)
+        ip_local = font.render("IP:", info_pids[0].laddr[0], True, black)
+        porta_local = font.render("Porta:", info_pids[0].laddr[1], True, black)
+        end_remoto = font.render("Endereço Remoto", True, black)
+        ip_remoto = font.render("IP:", info_pids[0].raddr[0], True, black)
+        porta_remoto = font.render("PID: ", True, black)
+
+        tela.blit(end_local, (10, 250))
+        tela.blit(ip_local, (30, 280))
+        tela.blit(porta_local, (30, 310))
+        tela.blit(end_remoto, (10, 340))
+        tela.blit(ip_remoto, (30, 370))
+        tela.blit(porta_remoto, (30, 400))
+
+    except:
+        print("Error")

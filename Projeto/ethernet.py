@@ -48,6 +48,3 @@ def get_mask():
 
         networks.append(ifnet)
     return networks[0]
-
-print(psutil.net_if_addrs())
-

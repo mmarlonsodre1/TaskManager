@@ -57,6 +57,7 @@ def btn_hd():
 
 def btn_ethernet():
     usos.mostra_info_ethernet()
+    pygame.draw.rect(tela, cinza_claro, (0, 210, 1360, 5))
 
 def menu_animation(x):
     if x == 0:
@@ -86,9 +87,30 @@ def main():
     tela.fill((255, 255, 255))
     pygame.init()
 
+    #####################################################
+    #variaveis e atributos para o text box para ethernet
+    input_box = pygame.Rect(55, 220, 140, 32)
+    color_inactive = pygame.Color('lightskyblue3')
+    color_active = pygame.Color('dodgerblue2')
+    color = black
+    active = False
+    text = ''
+    ######################################################
+
     while not fechou:
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Utilizar o teclado ao clicar no text box
+                if input_box.collidepoint(event.pos):
+                    # Toggle the active variable.
+                    active = not active
+                else:
+                    active = False
+                # Mudar a cor do text box
+                color = color_active if active else color_inactive
             if event.type == pygame.KEYDOWN:
+                #######################################
+                #Passar as telas
                 if event.key == pygame.K_RIGHT:
                     menu_list +=1
                     tela.fill(white)
@@ -105,6 +127,21 @@ def main():
 
                 elif event.key == pygame.K_SPACE:
                     menu_list = 0
+                #############################################
+                #############################################
+                #Text box ethernet
+                if menu_list == 1:
+                    if active:
+                        if event.key == pygame.K_RETURN:
+                            #Clique do enter
+                            pid = int(text)
+                            text = ''
+                            usos.info_pid_ethernet(pid)
+                        elif event.key == pygame.K_BACKSPACE:
+                            text = text[:-1]
+                        else:
+                            text += event.unicode
+                ###############################################
 
             if event.type == pygame.QUIT:
                 fechou = True
@@ -112,10 +149,23 @@ def main():
         tela.fill(white)
         pygame.draw.rect(tela, cinza_claro, (0, 5, 1360, 2))
         pygame.draw.rect(tela, cinza_claro, (0, 40, 1360, 2))
+
+        ##############################################################
+        # Text Box Ethernet
+        if menu_list == 1:
+            txt_surface = font.render(text, True, color)
+            # Resize the box if the text is too long.
+            width = max(200, txt_surface.get_width() + 10)
+            input_box.w = width
+            # Blit the text.
+            tela.blit(txt_surface, (input_box.x + 5, input_box.y + 5))
+            # Blit the input_box rect.
+            pygame.draw.rect(tela, color, input_box, 2)
+        ###############################################################
+
         menu_animation(menu_list)
         pygame.display.update()
         relogio.tick(5)
-
 
     pygame.display.quit()
     pygame.quit()

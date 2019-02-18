@@ -24,6 +24,7 @@ tela_hd = pygame.Surface((largura_tela, 100))
 fechou = False
 relogio = pygame.time.Clock()
 contador = 60
+pid = None
 
 
 
