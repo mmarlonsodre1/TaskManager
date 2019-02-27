@@ -89,6 +89,7 @@ def main():
     tela.fill((255, 255, 255))
     pygame.init()
 
+    usos.alterar_modo = False
     usos.alteracao()
 
     ####################################################

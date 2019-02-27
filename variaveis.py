@@ -1,6 +1,7 @@
 import pygame
 from Projeto import memoria
 from Projeto import hd
+from Projeto import cpu
 from Projeto import ethernet
 pygame.init()
 
@@ -25,11 +26,11 @@ fechou = False
 relogio = pygame.time.Clock()
 contador = 60
 pid = None
-
-
+pid_list = []
+contador_pid = 60
+contador_alteracao_false = 10
 
 font = pygame.font.Font(None, 32)
 larg = largura_tela - 2 * 20
 
-
-
+contata = 50
